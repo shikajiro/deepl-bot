@@ -41,7 +41,7 @@ def show_datepicker(event, say: Say):
         return
     result = translator.translate_text(message, target_lang=target_lang)
     print(result)
-    say(text=result.text)
+    say(text=f">{message}\n{result.text}")
 
 
 if __name__ == "__main__":
