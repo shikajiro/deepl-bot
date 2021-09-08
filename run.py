@@ -31,6 +31,11 @@ def show_datepicker(event, say: Say):
     reaction = event["reaction"]
     print(f"reaction={reaction}")
 
+    counts = [x["count"] for x in replies["messages"][0]["reactions"] if x["name"] == reaction]
+    print(f"counts={counts}")
+    if counts and counts[0] > 1:
+        return
+
     if reaction == "jp":
         target_lang = "JA"
     elif reaction == "us":
@@ -41,7 +46,7 @@ def show_datepicker(event, say: Say):
         return
     result = translator.translate_text(message, target_lang=target_lang)
     print(result)
-    say(text=f">{message}\n{result.text}")
+    say(text=f">{message}\n{result.text}", thread_ts=replies["messages"][0].get("thread_ts"))
 
 
 if __name__ == "__main__":
