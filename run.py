@@ -42,11 +42,16 @@ def show_datepicker(event, say: Say):
         target_lang = "EN-US"
     elif reaction == "gb":
         target_lang = "EN-GB"
+    elif reaction == "cn":
+        target_lang = "ZH"
     else:
         return
     result = translator.translate_text(message, target_lang=target_lang)
     print(result)
-    say(text=f">{message}\n{result.text}", thread_ts=replies["messages"][0].get("thread_ts"))
+    query = ""
+    for m in message.split("\n"):
+        query += f">{m}\n"
+    say(text=f"{query}{result.text}", thread_ts=replies["messages"][0].get("thread_ts"))
 
 
 if __name__ == "__main__":
