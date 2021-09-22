@@ -15,6 +15,21 @@ translator = deepl.Translator(DEEPL_API_TOKEN)
 
 logging.basicConfig(level=logging.DEBUG)
 
+languages = {
+    "jp": "JA",  # Japanese
+    "us": "EN-US",  # American
+    "gb": "EN-GB",  # British
+    "cn": "ZH",  # Chinese
+    "de": "DE",  # German
+    "fr": "FR",  # French
+    "es": "ES",  # Spanish
+    "it": "IT",  # Italian
+    "flag-pt": "PT-PT",  # Portuguese not Brazilian
+    "flag-br": "PT-BR",  # Portuguese Brazilian
+    "ru": "RU",  # Russian
+    "flag-nl": "NL",  # Dutch
+}
+
 
 @app.middleware
 def log_request(logger, body, next):
@@ -36,15 +51,8 @@ def show_datepicker(event, say: Say):
     if counts and counts[0] > 1:
         return
 
-    if reaction == "jp":
-        target_lang = "JA"
-    elif reaction == "us":
-        target_lang = "EN-US"
-    elif reaction == "gb":
-        target_lang = "EN-GB"
-    elif reaction == "cn":
-        target_lang = "ZH"
-    else:
+    target_lang = languages.get(reaction)
+    if not target_lang:
         return
     result = translator.translate_text(message, target_lang=target_lang)
     print(result)
